@@ -33,7 +33,7 @@ public class SpellController : Controller
     {
         var NameOfSpell = _context.Spells.Where(x => x.Name == Name).FirstOrDefault();
 
-        if(NameOfSpell != null)
+        if (NameOfSpell != null)
         {
             return Ok(NameOfSpell);
         }
@@ -62,6 +62,8 @@ public class SpellController : Controller
                 Color = Color,
 
             });
+
+            _context.SaveChanges();
 
             var createdSpell = _context.Spells.FirstOrDefault(x => x.Name == Name);
 
@@ -98,6 +100,7 @@ public class SpellController : Controller
             Cost = Cost;
             Color = Color;
 
+            _context.SaveChanges();
 
             var modifySpell = _context.Spells.FirstOrDefault(x => x.Name == Name);
 
@@ -124,11 +127,11 @@ public class SpellController : Controller
         }
         else
         {
-                    _context.Spells.Remove(Spell);
+            _context.Spells.Remove(Spell);
 
-        _context.SaveChanges();
+            _context.SaveChanges();
 
-        return Ok(_context.Spells);
+            return Ok(_context.Spells);
         }
 
 
