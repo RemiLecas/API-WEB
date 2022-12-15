@@ -16,27 +16,19 @@ public class GroundController : Controller
         _context = dbContext;
     }
 
+
     // Get Ground
 
     [HttpGet]
-    [Route("getAllGround")]
-    public ActionResult getGround()
-    {
-        return Ok(_context.Grounds);
-    }
-
-    // Get One Ground
-
-    [HttpGet]
     [Route("getOneGround")]
-    public ActionResult getOneGround(string Name)
+    async public Task<ActionResult<List<Ground>>> getGround(string Name)
     {
-        var NameOfGround = _context.Grounds.Where(x => x.Name == Name).FirstOrDefault();
+        Ground selectedGround = _context.Grounds.Where(x => x.Name == Name).FirstOrDefault();
+        selectedGround = _context.Grounds.Include(x => x.Colors).FirstOrDefault();
 
-        if(NameOfGround != null)
+        if (selectedGround != null)
         {
-            return Ok(NameOfGround);
-
+            return Ok(selectedGround);
         }
         else
         {
@@ -60,7 +52,7 @@ public class GroundController : Controller
             _context.Grounds.Add(new Ground()
             {
                 Name = Name,
-                Color = Color,
+                Colors = Color,
 
             });
 

@@ -10,6 +10,6 @@ namespace APIDs.Entities
         public int Cost { get; set; }
         public int Attack { get; set; }
         public int Defense { get; set; }
-        public CardColor? Color { get; set; }
+        public CardColor Colors { get; set; }
     }
 }

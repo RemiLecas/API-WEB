@@ -16,27 +16,18 @@ public class CreaturesController : Controller
         _context = dbContext;
     }
 
-    // Get AllCreatures
-
-    [HttpGet]
-    [Route("getAllCreatures")]
-    public ActionResult getCreatures()
-    {
-        return Ok(_context.Creatures);
-    }
-
-    // Get One Creature
+    // Get Creature
 
     [HttpGet]
     [Route("getOneCreature")]
-    public ActionResult getOneCreature(string Name)
+    async public Task<ActionResult<List<Creatures>>> getCreature(string Name)
     {
-        var NameOfCreature = _context.Creatures.Where(x => x.Name == Name).FirstOrDefault();
+        Creatures selectedCreature = _context.Creatures.Where(x => x.Name == Name).FirstOrDefault();
+        selectedCreature = _context.Creatures.Include(x => x.Colors).FirstOrDefault();
 
-        if(NameOfCreature != null)
-        {
-
-            return Ok(NameOfCreature);
+        if (selectedCreature != null)
+        {            
+            return Ok(selectedCreature);
         }
         else
         {
@@ -62,7 +53,7 @@ public class CreaturesController : Controller
                 Cost = Cost,
                 Attack = Attack,
                 Defense = Defense,
-                Color = Color,
+                Colors = Color
 
             });
 

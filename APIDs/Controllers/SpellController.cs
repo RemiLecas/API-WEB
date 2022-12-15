@@ -19,23 +19,15 @@ public class SpellController : Controller
     // Get Spell
 
     [HttpGet]
-    [Route("getAllSpell")]
-    public ActionResult getSpell()
-    {
-        return Ok(_context.Spells);
-    }
-
-    // Get One Spell
-
-    [HttpGet]
     [Route("getOneSpell")]
-    public ActionResult getOneSpell(string Name)
+    async public Task<ActionResult<List<Spell>>> getSpell(string Name)
     {
-        var NameOfSpell = _context.Spells.Where(x => x.Name == Name).FirstOrDefault();
+        Spell selectedSpell = _context.Spells.Where(x => x.Name == Name).FirstOrDefault();
+        selectedSpell = _context.Spells.Include(x => x.Colors).FirstOrDefault();
 
-        if (NameOfSpell != null)
+        if (selectedSpell != null)
         {
-            return Ok(NameOfSpell);
+            return Ok(selectedSpell);
         }
         else
         {
@@ -59,7 +51,7 @@ public class SpellController : Controller
                 Name = Name,
                 Description = Description,
                 Cost = Cost,
-                Color = Color,
+                Colors = Color,
 
             });
 
